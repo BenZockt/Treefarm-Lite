@@ -1,5 +1,3 @@
-module(..., package.seeall)
-
 remote.add_interface("treefarm_interface",
 {
 	addSeed = function(seedInfo)
@@ -18,11 +16,11 @@ remote.add_interface("treefarm_interface",
 	end,
 
 	readSeed = function(seedName)
-		return global.tf.plantGroups[seedName]
+		return storage.tf.plantGroups[seedName]
 	end,
 
 	getSeedTypesData = function()
-		return global.tf.plantGroups
+		return storage.tf.plantGroups
 	end,
 
 
@@ -57,14 +55,14 @@ remote.add_interface("treefarm_interface",
 
 		-- remove all the entities from a 1000 unit box around the center
 		for _, v in pairs(surface.find_entities ({{-coordinate + x_offset,-coordinate + y_offset}, {coordinate + x_offset,coordinate + y_offset}})) 
-			do v.destroy() 
+			do if v.type ~= "character" then v.destroy() end 
 		end
 
 		-- replace all the terrain w/ grass terrain
 
 		for i = -coordinate + x_offset, coordinate + x_offset, 1 do 
 			for j = -coordinate + y_offset,coordinate + y_offset,1 do 
-				surface.set_tiles ({ { name = "grass", position = { i,j } } }) 
+				surface.set_tiles ({ { name = "grass-1", position = { i,j } } }) 
 			end 
 		end
 	
@@ -86,10 +84,10 @@ remote.add_interface("treefarm_interface",
 		local seed_type = "tf-germling"
 		local x_offset = origin_position.x or origin_position[1]
 		local y_offset = origin_position.y or origin_position[2]
-		local seed_quantity = num_seeds or game.get_item_prototype ( seed_type ).stack_size
+		local seed_quantity = num_seeds or prototypes.item[seed_type].stack_size
 		local fertilizer_quantity = 0
-		if game.item_prototypes["tf-fertilizer"] ~= nil then
-			fertilizer_quantity = game.get_item_prototype ( "tf-fertilizer" ).stack_size
+		if prototypes.item["tf-fertilizer"] ~= nil then
+			fertilizer_quantity = prototypes.item["tf-fertilizer"].stack_size
 		end
 		
 		for i = -coordinate + x_offset + 10, coordinate + x_offset - 10, field_size do 
@@ -122,7 +120,7 @@ remote.add_interface("treefarm_interface",
 		local coordinate = treefarms_per_side * field_size / 2
 
 		for k, v in pairs(game.player.surface.find_entities_filtered({type="tree", area={ {-coordinate, -coordinate}, {coordinate,coordinate}} })) do 
-			if v.to_be_deconstructed(game.player.force) then 
+			if v.to_be_deconstructed() then 
 				v.destroy() 
 			end 
 		end
@@ -149,10 +147,10 @@ remote.add_interface("treefarm_interface",
 		local seed_type = "tf-germling"
 		local x_offset = origin_position.x or origin_position[1]
 		local y_offset = origin_position.y or origin_position[2]
-		local seed_quantity = num_seeds or game.get_item_prototype ( seed_type ).stack_size
+		local seed_quantity = num_seeds or prototypes.item[seed_type].stack_size
 		local fertilizer_quantity = 0
-		if game.item_prototypes["tf-fertilizer"] ~= nil then
-			fertilizer_quantity = game.get_item_prototype ( "tf-fertilizer" ).stack_size
+		if prototypes.item["tf-fertilizer"] ~= nil then
+			fertilizer_quantity = prototypes.item["tf-fertilizer"].stack_size
 		end
 		
 		for i = -coordinate + x_offset + 10, coordinate + x_offset - 10, field_size do 

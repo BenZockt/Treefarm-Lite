@@ -4,8 +4,9 @@ data:extend(
 		type = "tree",
 		name = "tf-germling",
 		icon = "__Treefarm-Lite__/graphics/icons/germling.png",
-		flags = {"placeable-neutral", "breaths-air"},
-		emissions_per_tick = -0.0001,
+		icon_size = 32,
+		flags = {"placeable-neutral"},
+		emissions_per_second = { pollution = -0.0001 * 60 },
 		minable =
 		{
 			count = 1,
@@ -16,7 +17,6 @@ data:extend(
 		max_health = 10,
 		collision_box = {{-0.01, -0.01}, {0.01, 0.01}},
 		selection_box = {{-0.1, -0.1}, {0.1, 0.1}},
-		drawing_box = {{0.0, 0.0}, {1.0, 1.0}},
 		pictures =
 		{
 			{
@@ -33,20 +33,20 @@ data:extend(
 		type = "tree",
 		name = "tf-very-small-tree",
 		icon = "__Treefarm-Lite__/graphics/icons/germling.png",
+		icon_size = 32,
 		order="b-b-g",
-		flags = {"placeable-neutral", "placeable-off-grid", "breaths-air"},
-		emissions_per_tick = -0.0002,
+		flags = {"placeable-neutral", "placeable-off-grid"},
+		emissions_per_second = { pollution = -0.0002 * 60 },
 		minable =
 		{
 			count = 1,
 			mining_particle = "wooden-particle",
 			mining_time = 0.2,
-			result = "raw-wood"
+			result = "wood"
 		},
 		max_health = 20,
 		collision_box = {{-0.2, -0.2}, {0.2, 0.2}},
 		selection_box = {{-0.2, -0.55}, {0.2, 0.2}},
-		drawing_box = {{-0.2, -0.7}, {0.2, 0.2}},
 		pictures =
 		{
 			{
@@ -98,27 +98,27 @@ data:extend(
 		type = "tree",
 		name = "tf-small-tree",
 		icon = "__Treefarm-Lite__/graphics/icons/germling.png",
+		icon_size = 32,
 		order="b-b-g",
-		flags = {"placeable-neutral", "placeable-off-grid", "breaths-air"},
-		emissions_per_tick = -0.0003,
+		flags = {"placeable-neutral", "placeable-off-grid"},
+		emissions_per_second = { pollution = -0.0003 * 60 },
 		minable =
 		{
 			count = 2,
 			mining_particle = "wooden-particle",
 			mining_time = 0.5,
-			result = "raw-wood"
+			result = "wood"
 		},
 		max_health = 50/2,
 		collision_box = {{-0.7/2, -0.8/2}, {0.7/2, 0.8/2}},
 		selection_box = {{-0.8/2, -2.2/2}, {0.8/2, 0.8/2}},
-		drawing_box = {{-0.8/2, -2.8/2}, {0.8/2, 0.8/2}},
 		pictures =
 		{
 			{
 				filename = "__Treefarm-Lite__/graphics/entities/treefarm/small-tree-01.png",
 				priority = "extra-high",
 				width = math.floor(155/2),
-				height = math.floor(118/2),
+				height = 58,
 				shift = {1.1/2, -1/2}
 			},
 			{
@@ -163,20 +163,20 @@ data:extend(
 		type = "tree",
 		name = "tf-medium-tree",
 		icon = "__Treefarm-Lite__/graphics/icons/germling.png",
+		icon_size = 32,
 		order="b-b-g",
-		flags = {"placeable-neutral", "placeable-off-grid", "breaths-air"},
-		emissions_per_tick = -0.0004,
+		flags = {"placeable-neutral", "placeable-off-grid"},
+		emissions_per_second = { pollution = -0.0004 * 60 },
 		minable =
 		{
 			count = 3,
 			mining_particle = "wooden-particle",
 			mining_time = 1.0,
-			result = "raw-wood"
+			result = "wood"
 		},
 		max_health = math.floor(50*0.75),
 		collision_box = {{-0.7*0.75, -0.8*0.75}, {0.7*0.75, 0.8*0.75}},
 		selection_box = {{-0.8*0.75, -2.2*0.75}, {0.8*0.75, 0.8*0.75}},
-		drawing_box = {{-0.8*0.75, -2.8*0.75}, {0.8*0.75, 0.8*0.75}},
 		pictures =
 		{
 			{
@@ -196,8 +196,8 @@ data:extend(
 			{
 				filename = "__Treefarm-Lite__/graphics/entities/treefarm/medium-tree-03.png",
 				priority = "extra-high",
-				width = math.floor(151*0.75),
-				height = math.floor(131*0.75),
+				width = 85,
+				height = 74,
 				shift = {0.8*0.75, -0.7*0.75}
 			},
 			{
@@ -228,20 +228,20 @@ data:extend(
 		type = "tree",
 		name = "tf-mature-tree",
 		icon = "__Treefarm-Lite__/graphics/icons/germling.png",
+		icon_size = 32,
 		order="b-b-h",
-		flags = {"placeable-neutral", "placeable-off-grid", "breaths-air"},
-		emissions_per_tick = -0.001,
+		flags = {"placeable-neutral", "placeable-off-grid"},
+		emissions_per_second = { pollution = -0.001 * 60 },
 		minable =
 		{
 			count = 4,
 			mining_particle = "wooden-particle",
 			mining_time = 2,
-			result = "raw-wood"
+			result = "wood"
 		},
 		max_health = 50,
 		collision_box = {{-0.7, -0.8}, {0.7, 0.8}},
 		selection_box = {{-0.8, -2.2}, {0.8, 0.8}},
-		drawing_box = {{-0.8, -2.8}, {0.8, 0.8}},
 		pictures =
 		{
 			{
@@ -335,8 +335,9 @@ data:extend(
 		type = "tree",
 		name = "tf-coral-seed",
 		icon = "__Treefarm-Lite__/graphics/icons/coral-seed.png",
-		flags = {"placeable-neutral", "breaths-air"},
-		emissions_per_tick = -0.0001,
+		icon_size = 32,
+		flags = {"placeable-neutral"},
+		emissions_per_second = { pollution = -0.0001 * 60 },
 		minable =
 		{
 			count = 1,
@@ -347,7 +348,6 @@ data:extend(
 		max_health = 10,
 		collision_box = {{-0.01, -0.01}, {0.01, 0.01}},
 		selection_box = {{-0.1, -0.1}, {0.1, 0.1}},
-		drawing_box = {{0.0, 0.0}, {1.0, 1.0}},
 		pictures =
 		{
 			{
@@ -364,20 +364,20 @@ data:extend(
 		type = "tree",
 		name = "tf-small-coral",
 		icon = "__Treefarm-Lite__/graphics/icons/coral-seed.png",
+		icon_size = 32,
 		order="b-b-g",
-		flags = {"placeable-neutral", "placeable-off-grid", "breaths-air"},
-		emissions_per_tick = -0.0002,
+		flags = {"placeable-neutral", "placeable-off-grid"},
+		emissions_per_second = { pollution = -0.0002 * 60 },
 		minable =
 		{
 			count = 1,
 			mining_particle = "wooden-particle",
 			mining_time = 0.2,
-			result = "raw-wood"
+			result = "wood"
 		},
 		max_health = 20,
 		collision_box = {{-0.2, -0.2}, {0.2, 0.2}},
 		selection_box = {{-0.2, -0.55}, {0.2, 0.2}},
-		drawing_box = {{-0.2, -0.7}, {0.2, 0.2}},
 		pictures =
 		{
 			{
@@ -408,20 +408,20 @@ data:extend(
 		type = "tree",
 		name = "tf-medium-coral",
 		icon = "__Treefarm-Lite__/graphics/icons/coral-seed.png",
+		icon_size = 32,
 		order="b-b-g",
-		flags = {"placeable-neutral", "placeable-off-grid", "breaths-air"},
-		emissions_per_tick = -0.0003,
+		flags = {"placeable-neutral", "placeable-off-grid"},
+		emissions_per_second = { pollution = -0.0003 * 60 },
 		minable =
 		{
 			count = 2,
 			mining_particle = "wooden-particle",
 			mining_time = 0.2,
-			result = "raw-wood"
+			result = "wood"
 		},
 		max_health = 20,
 		collision_box = {{-0.2, -0.2}, {0.2, 0.2}},
 		selection_box = {{-0.2, -0.55}, {0.2, 0.2}},
-		drawing_box = {{-0.2, -0.7}, {0.2, 0.2}},
 		pictures =
 		{
 			{
@@ -452,20 +452,20 @@ data:extend(
 		type = "tree",
 		name = "tf-mature-coral",
 		icon = "__Treefarm-Lite__/graphics/icons/coral-seed.png",
+		icon_size = 32,
 		order="b-b-g",
-		flags = {"placeable-neutral", "placeable-off-grid", "breaths-air"},
-		emissions_per_tick = -0.0006,
+		flags = {"placeable-neutral", "placeable-off-grid"},
+		emissions_per_second = { pollution = -0.0006 * 60 },
 		minable =
 		{
 			count = 3,
 			mining_particle = "wooden-particle",
 			mining_time = 0.2,
-			result = "raw-wood"
+			result = "wood"
 		},
 		max_health = 20,
 		collision_box = {{-0.2, -0.2}, {0.2, 0.2}},
 		selection_box = {{-0.2, -0.55}, {0.2, 0.2}},
-		drawing_box = {{-0.2, -0.7}, {0.2, 0.2}},
 		pictures =
 		{
 			{
