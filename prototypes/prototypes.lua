@@ -7,7 +7,8 @@ data:extend
     name = "treefarm",
     order = "e",
     inventory_order = "e",
-    icon = "__Treefarm-Lite__/graphics/icons/treefarm.png"
+    icon = "__Treefarm-Lite__/graphics/icons/treefarm.png",
+    icon_size = 32
   },
 
     {
@@ -63,7 +64,7 @@ data:extend
     type = "item",
     name = "tf-field",
     icon = "__Treefarm-Lite__/graphics/icons/field.png",
-    flags = {"goes-to-quickbar"},
+    icon_size = 32,
     subgroup = "tf-buildings",
     order = "a[field]",
     place_result = "tf-field",
@@ -73,10 +74,14 @@ data:extend
   {
     type = "recipe",
     name = "tf-field",
-    ingredients = {{"stone",20},{"wooden-chest",1},{"burner-inserter",1}},
-    result = "tf-field",
-    result_count = 1,
-    enabled = "true"
+    ingredients =
+    {
+      {type = "item", name = "stone", amount = 20},
+      {type = "item", name = "wooden-chest", amount = 1},
+      {type = "item", name = "burner-inserter", amount = 1}
+    },
+    results = {{type = "item", name = "tf-field", amount = 1}},
+    enabled = true
   },
 
   {
@@ -84,16 +89,24 @@ data:extend
     name = "treefarm-mod-dummy"
   },
 
+  -- the mk1 field never crafts anything. seeds and fertilizer both sit in its fuel slots,
+  -- fertilizer gets its own fuel category (see data-final-fixes.lua) so boilers won't take it
+  {
+    type = "fuel-category",
+    name = "tf-fertilizer"
+  },
+
   {
     type = "furnace",
     name = "tf-field",
     max_health = 100,
     icon = "__Treefarm-Lite__/graphics/icons/field.png",
+    icon_size = 32,
     flags = {"placeable-neutral", "player-creation"},
     crafting_categories = {"treefarm-mod-dummy"},
     minable = {mining_time = 1,result = "tf-field"},
-    collision_box = {{-0.5,-0.5},{0.5,0.5}},
-    selection_box = {{-0.5,-0.5},{0.5,0.5}} ,     
+    collision_box = {{-0.4,-0.4},{0.4,0.4}},
+    selection_box = {{-0.5,-0.5},{0.5,0.5}} ,
     result_inventory_size = 4,
     energy_usage = "180kW",
     crafting_speed = 1,
@@ -101,26 +114,21 @@ data:extend
     energy_source =
     {
       type = "burner",
+      fuel_categories = {"chemical", "tf-fertilizer"},
       effectivity = 1,
-      fuel_inventory_size = 1
+      fuel_inventory_size = 2
     },
-    animation =
+    graphics_set =
     {
-      filename = "__Treefarm-Lite__/graphics/entities/field/field.png",
-      priority = "extra-high",
-      width = 512,
-      height = 512,
-      frame_count = 1,
-      shift = {1.20, -0.30}
-    },
-    working_visualisations =
-    {
-      filename = "__Treefarm-Lite__/graphics/icons/empty.png",
-      priority = "extra-high",
-      width = 32,
-      height = 32,
-      frame_count = 1,
-      shift = {0.0, 0.0}
+      animation =
+      {
+        filename = "__Treefarm-Lite__/graphics/entities/field/field.png",
+        priority = "extra-high",
+        width = 512,
+        height = 512,
+        frame_count = 1,
+        shift = {1.20, -0.30}
+      }
     }
   },
 
@@ -130,7 +138,7 @@ data:extend
     type = "item",
     name = "tf-fieldmk2",
     icon = "__Treefarm-Lite__/graphics/icons/fieldmk2.png",
-    flags = {"goes-to-quickbar"},
+    icon_size = 32,
     subgroup = "tf-buildings",
     order = "b[fieldmk2]",
     place_result = "tf-fieldmk2Overlay",
@@ -140,10 +148,14 @@ data:extend
   {
     type = "recipe",
     name = "tf-fieldmk2",
-    ingredients = {{"advanced-circuit",20},{"red-wire",20},{"steel-plate",20}},
-    result = "tf-fieldmk2",
-    result_count = 1,
-    enabled = "false"
+    ingredients =
+    {
+      {type = "item", name = "advanced-circuit", amount = 20},
+      {type = "item", name = "copper-cable", amount = 20},
+      {type = "item", name = "steel-plate", amount = 20}
+    },
+    results = {{type = "item", name = "tf-fieldmk2", amount = 1}},
+    enabled = false
   },
 
   {
@@ -151,6 +163,7 @@ data:extend
     name = "tf-fieldmk2Overlay",
     max_health = 100,
     icon = "__Treefarm-Lite__/graphics/icons/fieldmk2.png",
+    icon_size = 32,
     flags = {"placeable-neutral", "player-creation"},
     minable = {mining_time = 1,result = "tf-fieldmk2"},
     collision_box = {{-0.7, -0.7}, {0.7, 0.7}},
@@ -173,14 +186,14 @@ data:extend
     order = "c[fieldmk2]",
     max_health = 100,
     icon = "__Treefarm-Lite__/graphics/icons/fieldmk2.png",
+    icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
-    minable = {hardness = 0.2, mining_time = 1, result = "tf-fieldmk2"},
-    vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
-    corpse = "medium-remnants",
+    -- lets robots build mk2 fields from blueprints directly (the item places the overlay)
+    placeable_by = {item = "tf-fieldmk2", count = 1},
+    minable = {mining_time = 1, result = "tf-fieldmk2"},
     collision_box = {{-0.7, -0.7}, {0.7, 0.7}},
     selection_box = {{-0.95, -0.55}, {1.05, 1.35}},
-    --drawing_box = {{-2.8, -0.5}, {0.5, 0.5}},
-    inventory_size = 2,
+    inventory_size = 16,
     picture =
     {
       filename = "__Treefarm-Lite__/graphics/entities/fieldmk2/fieldmk2.png",
@@ -189,44 +202,6 @@ data:extend
       height = 175,
       shift = {0.9375, -1.3125}
     }
-    -- animation =
-    -- {
-      -- north =
-      -- {
-        -- filename = "__Treefarm-Lite__/graphics/entities/fieldmk2/field-2.png",
-        -- width = 314,
-        -- height = 270,
-        -- frame_count = 1,
-        -- shift = {0.9375, -1.3125}
-      -- },
-      -- east =
-      -- {
-        -- filename = "__Treefarm-Lite__/graphics/entities/fieldmk2/field-2.png",
-        -- x = 328,
-        -- width = 278,
-        -- height = 308,
-        -- frame_count = 1,
-        -- shift = {0.9375, -1.3125}
-      -- },
-      -- south =
-      -- {
-        -- filename = "__Treefarm-Lite__/graphics/entities/fieldmk2/field-2.png",
-        -- x = 623,
-        -- width = 310,
-        -- height = 270,
-        -- frame_count = 1,
-        -- shift = {0.9375, -1.3125}
-      -- },
-      -- west =
-      -- {
-        -- filename = "__Treefarm-Lite__/graphics/entities/fieldmk2/field-2.png",
-        -- x = 943,
-        -- width = 278,
-        -- height = 308,
-        -- frame_count = 1,
-        -- shift = {0.9375, -1.3125}
-      -- }
-    -- }
   },
 
 
@@ -239,10 +214,11 @@ data:extend
     type = "item",
     name = "tf-germling",
     icon = "__Treefarm-Lite__/graphics/icons/germling.png",
-    flags = {"goes-to-main-inventory"},
+    icon_size = 32,
     subgroup = "tf-seeds",
     order = "a[germling]",
     place_result = "tf-germling",
+    fuel_category = "chemical",
     fuel_value = "1MJ",
     stack_size = 50
   },
@@ -250,9 +226,8 @@ data:extend
   {
     type = "recipe",
     name = "tf-germling",
-    ingredients = {{"raw-wood",1}},
-    result = "tf-germling",
-    result_count = 1
+    ingredients = {{type = "item", name = "wood", amount = 1}},
+    results = {{type = "item", name = "tf-germling", amount = 1}}
   },
 
 
@@ -260,10 +235,11 @@ data:extend
     type = "item",
     name = "tf-coral-seed",
     icon = "__Treefarm-Lite__/graphics/icons/coral-seed.png",
-    flags = {"goes-to-main-inventory"},
+    icon_size = 32,
     subgroup = "tf-seeds",
     order = "b[coral]",
     place_result = "tf-coral-seed",
+    fuel_category = "chemical",
     fuel_value = "1MJ",
     stack_size = 50
   },
@@ -271,9 +247,8 @@ data:extend
   {
     type = "recipe",
     name = "tf-coral-seed",
-    ingredients = {{"raw-wood",1}},
-    result = "tf-coral-seed",
-    result_count = 1
+    ingredients = {{type = "item", name = "wood", amount = 1}},
+    results = {{type = "item", name = "tf-coral-seed", amount = 1}}
   },
 
 
@@ -287,6 +262,7 @@ data:extend
     type = "technology",
     name = "tf-advanced-treefarming",
     icon = "__Treefarm-Lite__/graphics/icons/fieldmk2.png",
+    icon_size = 32,
     effects =
     {
       {
@@ -304,8 +280,9 @@ data:extend
       count = 100,
       ingredients =
       {
-        {"science-pack-1", 3},
-        {"science-pack-2", 2}
+        {"automation-science-pack", 1},
+        {"logistic-science-pack", 1},
+        {"chemical-science-pack", 1}
       },
       time = 30
     }
@@ -313,55 +290,27 @@ data:extend
 
 
 
+  -- area overlays for the mk2 configuration gui, drawn via the rendering api
   {
-    type = "decorative",
+    type = "sprite",
     name = "tf-overlay-green",
-    flags = {"placeable-neutral", "not-on-map"},
-    icon = "__Treefarm-Lite__/graphics/entities/fieldmk2/tf-overlay-1.png",
-    subgroup = "grass",
-    order = "b[decorative]-b[tf-overlay-green]",
-    collision_box = {{-0.7, -0.7}, {0.7, 0.7}},
-    selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
-    selectable_in_game = false,
-    render_layer = "radius-visualization",
-    pictures =
-    {
-      {
-        filename = "__Treefarm-Lite__/graphics/entities/fieldmk2/tf-overlay-1.png",
-        width = 32,
-        height = 32,
-        shift = {-0.5, -0.5}
-      }
-    }
+    filename = "__Treefarm-Lite__/graphics/entities/fieldmk2/tf-overlay-1.png",
+    width = 32,
+    height = 32
   },
-  
+
   {
-    type = "decorative",
+    type = "sprite",
     name = "tf-overlay-red",
-    flags = {"placeable-neutral", "not-on-map"},
-    icon = "__Treefarm-Lite__/graphics/entities/fieldmk2/tf-overlay-2.png",
-    subgroup = "grass",
-    order = "b[decorative]-b[tf-overlay-red]",
-    collision_box = {{-0.7, -0.7}, {0.7, 0.7}},
-    selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
-    selectable_in_game = false,
-    render_layer = "radius-visualization",
-    pictures =
-    {
-      {
-        filename = "__Treefarm-Lite__/graphics/entities/fieldmk2/tf-overlay-2.png",
-        width = 32,
-        height = 32,
-        shift = {-0.5, -0.5}
-      }
-    }
+    filename = "__Treefarm-Lite__/graphics/entities/fieldmk2/tf-overlay-2.png",
+    width = 32,
+    height = 32
   }
 })
 
-local tf_smallerButtonFont =
+data.raw["gui-style"].default["tf_smallerButtonFont"] =
 {
   type = "button_style",
-  parent = "button_style",
+  parent = "button",
   font = "default"
 }
-data.raw["gui-style"].default["tf_smallerButtonFont"] = tf_smallerButtonFont
